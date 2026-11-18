@@ -1,0 +1,14 @@
+<header class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" href="/repos">🚀 DeployHub</a>
+    <nav class="nav-links">
+      <a href="/repos" class="<%= active === 'repos' ? 'active' : '' %>">Repositories</a>
+      <a href="/deployments" class="<%= active === 'deployments' ? 'active' : '' %>">Deployments</a>
+    </nav>
+    <div class="nav-user">
+      <img class="avatar" src="<%= user.avatar %>" alt="">
+      <span class="nav-name"><%= user.login %></span>
+      <a class="btn btn-ghost btn-sm" href="/auth/logout">Logout</a>
+    </div>
+  </div>
+</header>
