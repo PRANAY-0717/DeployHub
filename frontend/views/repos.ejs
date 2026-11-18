@@ -1,0 +1,12 @@
+<%- include('partials/head', { title: title }) %>
+<main class="container">
+  <div class="page-head">
+    <h1>Repositories</h1>
+    <div class="toolbar">
+      <input id="search" type="search" placeholder="Search repositories" aria-label="Search repositories">
+      <select id="lang" aria-label="Filter by language"><option value="">All languages</option></select>
+    </div>
+  </div>
+  <div id="grid" class="grid"><div class="empty">Loading repositories…</div></div>
+</main>
+<%- include('partials/foot') %>
