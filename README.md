@@ -157,16 +157,3 @@ npm start
 ```
 
 ---
-
-## Viva & Architecture Review Q&A
-
-1. **Why divide the project into Frontend, Backend, and AWS/Kubernetes?**
-   - **Separation of Concerns**: Frontend deals strictly with UI/UX and presentation. Backend contains business logic, OAuth, and the pipeline engine. AWS/Kubernetes manages Infrastructure as Code (IaC), cloud provisioning, and container orchestration.
-   - **Independent Scaling & Deployment**: The backend can run inside a containerized pod or serverless environment while the frontend can be compiled or served via CDN/Nginx, and the Kubernetes infrastructure can be managed declaratively via GitOps/Terraform.
-
-2. **How does DeployHub achieve zero-downtime rolling updates?**
-   - The generated Kubernetes Deployment specifies `strategy.rollingUpdate` with `maxUnavailable: 0` and `maxSurge: 1`. Kubernetes ensures that new pods must pass readiness probes before terminating old pods. A unique deployment timestamp annotation ensures a rollout is triggered even if the commit SHA is unchanged.
-
-3. **How are secrets protected during pipeline execution?**
-   - Commands are invoked with parameter arrays via `spawn` (preventing shell injection). All stdout/stderr outputs pass through a stream redaction filter (`redactText`), masking GitHub OAuth tokens and Docker credentials before logs are stored or sent to the frontend.
-# DeployHub
