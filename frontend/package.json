@@ -1,7 +1,7 @@
 {
-  "name": "deployhub-frontend",
+  "name": "deploysync-frontend",
   "version": "1.0.0",
-  "description": "Frontend UI templates, static assets, and client scripts for DeployHub",
+  "description": "Frontend UI templates, static assets, and client scripts for DeploySync",
   "private": true,
   "scripts": {
     "lint": "echo \"Linting frontend assets...\""
@@ -10,7 +10,7 @@
     "frontend",
     "ejs",
     "ui",
-    "deployhub"
+    "deploysync"
   ],
   "author": "",
   "license": "ISC"

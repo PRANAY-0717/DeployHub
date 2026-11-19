@@ -1,16 +1,16 @@
 services:
-  deployhub:
+  deploysync:
     build:
       context: ../..
       dockerfile: aws-kubernetes/docker/Dockerfile
-    container_name: deployhub-server
+    container_name: deploysync-server
     restart: unless-stopped
     ports:
       - "3000:3000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock # Mount Docker socket for container builds
       - ~/.kube/config:/root/.kube/config:ro     # Mount host kubeconfig for cluster deployments
-      - deployhub-data:/app/backend/data
+      - deploysync-data:/app/backend/data
     env_file:
       - ../../backend/.env
     environment:
@@ -18,5 +18,5 @@ services:
       - FRONTEND_DIR=/app/frontend
 
 volumes:
-  deployhub-data:
+  deploysync-data:
 

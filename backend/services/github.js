@@ -1,7 +1,7 @@
 // Thin wrapper around Octokit. The user's token is passed per call, never stored here.
 const { Octokit } = require('@octokit/rest');
 
-const client = (token) => new Octokit({ auth: token, userAgent: 'deployhub' });
+const client = (token) => new Octokit({ auth: token, userAgent: 'deploysync' });
 
 async function listRepos(token) {
   const { data } = await client(token).rest.repos.listForAuthenticatedUser({

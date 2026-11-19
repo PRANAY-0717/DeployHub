@@ -14,9 +14,9 @@ metadata:
   namespace: ${namespace}
   labels:
     app: ${name}
-    managed-by: deployhub
+    managed-by: deploysync
   annotations:
-    deployhub.io/repo: ${q(repo)}
+    deploysync.io/repo: ${q(repo)}
 spec:
   replicas: ${Number(replicas)}
   strategy:
@@ -31,10 +31,10 @@ spec:
     metadata:
       labels:
         app: ${name}
-        managed-by: deployhub
+        managed-by: deploysync
       annotations:
-        deployhub.io/commit: ${q(commit || 'unknown')}
-        deployhub.io/deployed-at: ${q(new Date().toISOString())}
+        deploysync.io/commit: ${q(commit || 'unknown')}
+        deploysync.io/deployed-at: ${q(new Date().toISOString())}
     spec:
       containers:
         - name: ${name}
@@ -61,7 +61,7 @@ metadata:
   namespace: ${namespace}
   labels:
     app: ${name}
-    managed-by: deployhub
+    managed-by: deploysync
 spec:
   type: ${svcType}
   selector:

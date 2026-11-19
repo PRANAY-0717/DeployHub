@@ -1,5 +1,5 @@
 {
-  "name": "deployhub",
+  "name": "deploysync",
   "version": "1.0.0",
   "description": "GitHub -> Docker -> Kubernetes automated CI/CD platform",
   "main": "server.js",

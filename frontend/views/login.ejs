@@ -13,7 +13,7 @@
           <h1 id="hero-title">Push code. Ship to Kubernetes without the YAML.</h1>
 
           <p class="hero-lead">
-            DeployHub connects your GitHub repositories, automatically detects runtime dependencies, generates multi-stage container builds, and deploys scalable pods to your cluster with live streaming logs.
+            DeploySync connects your GitHub repositories, automatically detects runtime dependencies, generates multi-stage container builds, and deploys scalable pods to your cluster with live streaming logs.
           </p>
 
           <% if (error) { %>
@@ -57,7 +57,7 @@
                 <span class="dot-yellow"></span>
                 <span class="dot-green"></span>
               </div>
-              <div class="dev-window__title">deployhub-pipeline · octocat/web-service:main (a1f89bc)</div>
+              <div class="dev-window__title">deploysync-pipeline · octocat/web-service:main (a1f89bc)</div>
               <div class="dev-window__status">
                 <span class="badge-live">LIVE</span>
               </div>
@@ -95,7 +95,7 @@
               <div class="console-line"><span class="c-ts">19:16:03</span> <span class="c-cmd">$ git clone https://github.com/octocat/web-service</span></div>
               <div class="console-line"><span class="c-ts">19:16:04</span> <span class="c-ok">✔ Detected stack: Node.js 20 LTS (container port 3000)</span></div>
               <div class="console-line"><span class="c-ts">19:16:05</span> <span class="c-stage">▶ Phase 2: Container image generation</span></div>
-              <div class="console-line"><span class="c-ts">19:16:06</span> <span class="c-cmd">$ docker build -t deployhub/web-service:a1f89bc .</span></div>
+              <div class="console-line"><span class="c-ts">19:16:06</span> <span class="c-cmd">$ docker build -t deploysync/web-service:a1f89bc .</span></div>
               <div class="console-line"><span class="c-ts">19:16:08</span> <span class="c-ok">✔ Image pushed to registry (digest: sha256:7e9a2b...)</span></div>
               <div class="console-line"><span class="c-ts">19:16:09</span> <span class="c-stage">▶ Phase 3: Kubernetes deployment rollout</span></div>
               <div class="console-line"><span class="c-ts">19:16:10</span> <span class="c-cmd">$ kubectl apply -f manifest.yaml</span></div>
@@ -130,7 +130,7 @@
   <section class="section" id="pipeline" aria-labelledby="pipeline-h">
     <div class="wrap">
       <div class="section-head">
-        <h2 id="pipeline-h">How DeployHub works. <span class="muted">Three steps from git push to cluster pod.</span></h2>
+        <h2 id="pipeline-h">How DeploySync works. <span class="muted">Three steps from git push to cluster pod.</span></h2>
       </div>
 
       <div class="feature-cards">
@@ -240,7 +240,7 @@
   <footer class="site-footer">
     <div class="wrap footer-content">
       <div class="footer-brand">
-        <span class="nav__title">DeployHub</span>
+        <span class="nav__title">DeploySync</span>
         <span class="muted">Automated Kubernetes CI/CD Pipeline</span>
       </div>
       <div class="footer-meta">

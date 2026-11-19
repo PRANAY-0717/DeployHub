@@ -13,38 +13,38 @@ provider "aws" {
 }
 
 # 1. VPC and Subnet Configuration
-resource "aws_vpc" "deployhub_vpc" {
+resource "aws_vpc" "deploysync_vpc" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
 
   tags = {
-    Name        = "deployhub-vpc"
+    Name        = "deploysync-vpc"
     Environment = "production"
   }
 }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.deployhub_vpc.id
+  vpc_id = aws_vpc.deploysync_vpc.id
 
   tags = {
-    Name = "deployhub-igw"
+    Name = "deploysync-igw"
   }
 }
 
 resource "aws_subnet" "public_subnet" {
-  vpc_id                  = aws_vpc.deployhub_vpc.id
+  vpc_id                  = aws_vpc.deploysync_vpc.id
   cidr_block              = "10.0.1.0/24"
   map_public_ip_on_launch = true
   availability_zone       = "${var.aws_region}a"
 
   tags = {
-    Name = "deployhub-public-subnet"
+    Name = "deploysync-public-subnet"
   }
 }
 
 resource "aws_route_table" "public_rt" {
-  vpc_id = aws_vpc.deployhub_vpc.id
+  vpc_id = aws_vpc.deploysync_vpc.id
 
   route {
     cidr_block = "0.0.0.0/0"
@@ -52,7 +52,7 @@ resource "aws_route_table" "public_rt" {
   }
 
   tags = {
-    Name = "deployhub-public-rt"
+    Name = "deploysync-public-rt"
   }
 }
 
@@ -62,10 +62,10 @@ resource "aws_route_table_association" "public_assoc" {
 }
 
 # 2. Security Group: SSH, HTTP (3000), and NodePort range (30000-32767)
-resource "aws_security_group" "deployhub_sg" {
-  name        = "deployhub-security-group"
+resource "aws_security_group" "deploysync_sg" {
+  name        = "deploysync-security-group"
   description = "Allow inbound SSH, HTTP, and Kubernetes NodePorts"
-  vpc_id      = aws_vpc.deployhub_vpc.id
+  vpc_id      = aws_vpc.deploysync_vpc.id
 
   ingress {
     description = "SSH access"
@@ -76,7 +76,7 @@ resource "aws_security_group" "deployhub_sg" {
   }
 
   ingress {
-    description = "DeployHub Web UI"
+    description = "DeploySync Web UI"
     from_port   = 3000
     to_port     = 3000
     protocol    = "tcp"
@@ -100,7 +100,7 @@ resource "aws_security_group" "deployhub_sg" {
   }
 
   tags = {
-    Name = "deployhub-sg"
+    Name = "deploysync-sg"
   }
 }
 
@@ -120,12 +120,12 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-# 4. EC2 Instance for DeployHub Server + k3s / Docker
-resource "aws_instance" "deployhub_server" {
+# 4. EC2 Instance for DeploySync Server + k3s / Docker
+resource "aws_instance" "deploysync_server" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
   subnet_id              = aws_subnet.public_subnet.id
-  vpc_security_group_ids = [aws_security_group.deployhub_sg.id]
+  vpc_security_group_ids = [aws_security_group.deploysync_sg.id]
   key_name               = var.key_pair_name != "" ? var.key_pair_name : null
 
   root_block_device {
@@ -140,17 +140,17 @@ resource "aws_instance" "deployhub_server" {
               EOF
 
   tags = {
-    Name = "DeployHub-Host"
+    Name = "DeploySync-Host"
   }
 }
 
 # 5. Elastic IP for static public address
-resource "aws_eip" "deployhub_eip" {
-  instance = aws_instance.deployhub_server.id
+resource "aws_eip" "deploysync_eip" {
+  instance = aws_instance.deploysync_server.id
   domain   = "vpc"
 
   tags = {
-    Name = "deployhub-eip"
+    Name = "deploysync-eip"
   }
 }
 

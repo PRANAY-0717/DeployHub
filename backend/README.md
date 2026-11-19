@@ -1,6 +1,6 @@
-# DeployHub — Backend Module
+# DeploySync — Backend Module
 
-The backend for DeployHub is an Express-based Node.js engine responsible for user authentication, repository ingestion, automated containerization, Kubernetes manifest rendering, cluster rollout management, and GitHub webhook event processing.
+The backend for DeploySync is an Express-based Node.js engine responsible for user authentication, repository ingestion, automated containerization, Kubernetes manifest rendering, cluster rollout management, and GitHub webhook event processing.
 
 ---
 
@@ -36,18 +36,18 @@ backend/
 
 ## 7-Stage Pipeline Lifecycle (`services/pipeline.js`)
 
-When a deployment is requested (manually or via push webhook), DeployHub runs an asynchronous 7-stage pipeline:
+When a deployment is requested (manually or via push webhook), DeploySync runs an asynchronous 7-stage pipeline:
 
 ```
 [0. Clone] ──> [1. Detect] ──> [2. Generate] ──> [3. Build] ──> [4. Push] ──> [5. Deploy] ──> [6. Live]
 ```
 
-1. **Clone (`0`)**: Performs shallow clone (`--depth 1 --branch <ref>`) into a temporary workspace (`/tmp/deployhub/<id>`) using the authenticated GitHub token. The commit SHA is resolved.
+1. **Clone (`0`)**: Performs shallow clone (`--depth 1 --branch <ref>`) into a temporary workspace (`/tmp/deploysync/<id>`) using the authenticated GitHub token. The commit SHA is resolved.
 2. **Detect (`1`)**: Evaluates repository files to identify stack (Node.js, Python, Static HTML, or custom Dockerfile) and target container port.
 3. **Generate (`2`)**: If no Dockerfile exists in the repo root, dynamically generates an optimized multi-stage Dockerfile and `.dockerignore`.
 4. **Build (`3`)**: Executes `docker build -t <docker_user>/<user>-<repo>:<sha>` with optional architecture targeting (`--platform linux/amd64`).
 5. **Push (`4`)**: Authenticates against Docker Hub and pushes the immutable image tag.
-6. **Deploy (`5`)**: Generates Kubernetes manifests, creates the user namespace (`deployhub-<user>`) if absent, and executes `kubectl apply -f manifest.yaml` followed by `kubectl rollout status`.
+6. **Deploy (`5`)**: Generates Kubernetes manifests, creates the user namespace (`deploysync-<user>`) if absent, and executes `kubectl apply -f manifest.yaml` followed by `kubectl rollout status`.
 7. **Live (`6`)**: Discovers the service endpoint (AWS LoadBalancer public hostname/IP or NodePort address) and auto-registers a push webhook with the GitHub repository.
 
 ---
@@ -77,6 +77,6 @@ When a deployment is requested (manually or via push webhook), DeployHub runs an
 ## Security Implementation
 - **Subprocess Isolation**: Commands run through `spawn` with array parameters. Shell interpretation (`sh -c`) is avoided, eliminating command injection vulnerabilities.
 - **Log Redaction**: All stdout/stderr streams pass through `redactText()`, masking GitHub personal access tokens, session keys, and Docker passwords before emitting to storage or UI.
-- **Multi-Tenant Kubernetes Isolation**: Every user's workloads are deployed to an isolated namespace: `deployhub-<sanitized_github_login>`.
+- **Multi-Tenant Kubernetes Isolation**: Every user's workloads are deployed to an isolated namespace: `deploysync-<sanitized_github_login>`.
 - **Encrypted Persistence**: Sensitive tokens in `state.json` are encrypted using AES-256-GCM derived from `SESSION_SECRET`.
 

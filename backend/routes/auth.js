@@ -42,11 +42,11 @@ router.get('/auth/callback', async (req, res) => {
     if (!tokenData.access_token) return fail('Login failed: ' + (tokenData.error_description || 'no access token returned'));
 
     const userRes = await fetch('https://api.github.com/user', {
-      headers: { Authorization: `Bearer ${tokenData.access_token}`, 'User-Agent': 'deployhub', Accept: 'application/vnd.github+json' },
+      headers: { Authorization: `Bearer ${tokenData.access_token}`, 'User-Agent': 'deploysync', Accept: 'application/vnd.github+json' },
     });
     if (!userRes.ok) return fail('Login failed: could not read your GitHub profile.');
     const u = await userRes.json();
-    if (!isAllowed(u.login)) return fail('This DeployHub server only allows specific GitHub accounts. Ask the owner to add yours.');
+    if (!isAllowed(u.login)) return fail('This DeploySync server only allows specific GitHub accounts. Ask the owner to add yours.');
 
     // New session id after login prevents session fixation.
     req.session.regenerate((err) => {
@@ -62,7 +62,7 @@ router.get('/auth/callback', async (req, res) => {
 });
 
 router.get('/auth/logout', (req, res) => {
-  req.session.destroy(() => { res.clearCookie('deployhub.sid'); res.redirect('/'); });
+  req.session.destroy(() => { res.clearCookie('deploysync.sid'); res.redirect('/'); });
 });
 
 module.exports = router;

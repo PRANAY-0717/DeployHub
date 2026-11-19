@@ -1,4 +1,4 @@
-# Multi-stage production container image for DeployHub
+# Multi-stage production container image for DeploySync
 FROM node:20-alpine AS builder
 
 WORKDIR /app

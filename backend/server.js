@@ -39,7 +39,7 @@ app.use(express.json({ limit: '100kb' }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(publicPath));
 app.use(session({
-  name: 'deployhub.sid',
+  name: 'deploysync.sid',
   secret: process.env.SESSION_SECRET || 'dev-only-secret-change-me',
   resave: false,
   saveUninitialized: false,
@@ -74,7 +74,7 @@ if (require.main === module) {
   process.on('SIGTERM', bye);
   process.on('SIGINT', bye);
   app.listen(PORT, () => {
-    console.log(`DeployHub running at ${BASE_URL}`);
+    console.log(`DeploySync running at ${BASE_URL}`);
     ['GITHUB_CLIENT_ID', 'GITHUB_CLIENT_SECRET', 'DOCKER_USER'].forEach((k) => {
       if (!process.env[k]) console.warn(`WARNING: ${k} is not set in .env`);
     });

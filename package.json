@@ -1,7 +1,7 @@
 {
-  "name": "deployhub",
+  "name": "deploysync",
   "version": "1.0.0",
-  "description": "DeployHub: GitHub -> Docker -> Kubernetes automated CI/CD platform",
+  "description": "DeploySync: GitHub -> Docker -> Kubernetes automated CI/CD platform",
   "private": true,
   "scripts": {
     "start": "node backend/server.js",

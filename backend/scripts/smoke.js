@@ -25,7 +25,7 @@ assert.ok(dockerfileFor(detect(s('python-sample')), 8000).includes('CMD ["python
 
 assert.strictEqual(sanitizeName('My_Repo.Name!'), 'my-repo-name');
 assert.strictEqual(sanitizeName('---'), 'app');
-const y = render({ name: 'x', namespace: 'deployhub', image: 'u/x:abc1234', port: 3000, replicas: 2, mode: 'cloud', repo: 'o/x', commit: 'abc' });
+const y = render({ name: 'x', namespace: 'deploysync', image: 'u/x:abc1234', port: 3000, replicas: 2, mode: 'cloud', repo: 'o/x', commit: 'abc' });
 assert.ok(y.includes('type: LoadBalancer') && y.includes('replicas: 2'));
 assert.ok(render({ name: 'x', namespace: 'n', image: 'i', port: 1, replicas: 1, mode: 'local' }).includes('type: NodePort'));
 

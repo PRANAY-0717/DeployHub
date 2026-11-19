@@ -1,6 +1,6 @@
-# DeployHub — Frontend Module
+# DeploySync — Frontend Module
 
-The frontend for DeployHub provides a dark-themed, responsive dashboard interface for automated CI/CD deployments. It combines Server-Side Rendered (SSR) views with dynamic client-side DOM manipulation and real-time polling.
+The frontend for DeploySync provides a dark-themed, responsive dashboard interface for automated CI/CD deployments. It combines Server-Side Rendered (SSR) views with dynamic client-side DOM manipulation and real-time polling.
 
 ---
 

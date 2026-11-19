@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployhub-server
+  name: deploysync-server
   namespace: default
   labels:
-    app: deployhub
+    app: deploysync
     role: control-plane
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: deployhub
+      app: deploysync
   template:
     metadata:
       labels:
-        app: deployhub
+        app: deploysync
     spec:
-      serviceAccountName: deployhub-sa
+      serviceAccountName: deploysync-sa
       containers:
-        - name: deployhub
-          image: deployhub:latest
+        - name: deploysync
+          image: deploysync:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
@@ -32,37 +32,37 @@ spec:
             - name: GITHUB_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: deployhub-secrets
+                  name: deploysync-secrets
                   key: GITHUB_CLIENT_ID
             - name: GITHUB_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: deployhub-secrets
+                  name: deploysync-secrets
                   key: GITHUB_CLIENT_SECRET
             - name: DOCKER_USER
               valueFrom:
                 secretKeyRef:
-                  name: deployhub-secrets
+                  name: deploysync-secrets
                   key: DOCKER_USER
             - name: DOCKER_PASS
               valueFrom:
                 secretKeyRef:
-                  name: deployhub-secrets
+                  name: deploysync-secrets
                   key: DOCKER_PASS
             - name: SESSION_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: deployhub-secrets
+                  name: deploysync-secrets
                   key: SESSION_SECRET
             - name: WEBHOOK_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: deployhub-secrets
+                  name: deploysync-secrets
                   key: WEBHOOK_SECRET
             - name: BASE_URL
               valueFrom:
                 configMapKeyRef:
-                  name: deployhub-config
+                  name: deploysync-config
                   key: BASE_URL
           resources:
             requests:

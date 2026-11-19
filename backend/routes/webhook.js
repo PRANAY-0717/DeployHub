@@ -20,7 +20,7 @@ router.post('/github', express.raw({ type: '*/*', limit: '2mb' }), (req, res) =>
 
   const fullName = payload.repository && payload.repository.full_name;
   const link = fullName && store.getLink(fullName);
-  if (!link) return res.status(202).send('Repository is not managed by DeployHub');
+  if (!link) return res.status(202).send('Repository is not managed by DeploySync');
   if (payload.deleted || payload.ref !== `refs/heads/${link.branch}`) return res.status(202).send('Not the deployed branch');
   if (store.isRunning(fullName)) return res.status(202).send('A deployment is already running');
 

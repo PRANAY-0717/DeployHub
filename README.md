@@ -1,6 +1,6 @@
-# DeployHub — Automated CI/CD Platform
+# DeploySync — Automated CI/CD Platform
 
-> **Automated GitHub to Kubernetes Continuous Deployment Platform**: Sign in with GitHub, select a repository, and DeployHub automatically clones it, detects the application runtime, generates a Dockerfile, builds and pushes the container image to Docker Hub, and rolls out a multi-replica deployment to a managed Kubernetes cluster with zero downtime.
+> **Automated GitHub to Kubernetes Continuous Deployment Platform**: Sign in with GitHub, select a repository, and DeploySync automatically clones it, detects the application runtime, generates a Dockerfile, builds and pushes the container image to Docker Hub, and rolls out a multi-replica deployment to a managed Kubernetes cluster with zero downtime.
 
 ---
 
@@ -9,7 +9,7 @@
 The project has been separated into three modules: **Frontend**, **Backend**, and **AWS & Kubernetes**.
 
 ```
-DeployHub/
+DeploySync/
 ├── frontend/                     # Part 1: UI Views, Static Assets, Client Logic
 │   ├── public/                   # CSS styles and client-side JavaScript controllers
 │   ├── views/                    # EJS templates (Login, Repos, Deployments, Stepper/Logs)
@@ -27,7 +27,7 @@ DeployHub/
 │
 ├── aws-kubernetes/               # Part 3: Cloud Infrastructure & Container Orchestration
 │   ├── aws/                      # AWS deployment scripts (EC2 setup, PM2) & Terraform IaC
-│   ├── kubernetes/               # RBAC, DeployHub control plane & reference app manifests
+│   ├── kubernetes/               # RBAC, DeploySync control plane & reference app manifests
 │   ├── docker/                   # Multi-stage Dockerfile & docker-compose configurations
 │   └── README.md                 # Cloud & Kubernetes infrastructure documentation
 │
@@ -70,7 +70,7 @@ GitHub Push Event ──> POST /webhook/github (HMAC-SHA256) ─> Triggers Rolli
   - `detail.js`: Polls `/api/deployments/:id` to dynamically update progress badges and append log lines.
 - **Design System**: High-contrast, clean dark theme (`frontend/public/css/style.css`).
 
-See the [Frontend README](file:///Users/prans/Downloads/DeployHub-main/frontend/README.md) for detailed UI component documentation.
+See the [Frontend README](file:///Users/prans/Downloads/DeploySync-main/frontend/README.md) for detailed UI component documentation.
 
 ---
 
@@ -84,7 +84,7 @@ See the [Frontend README](file:///Users/prans/Downloads/DeployHub-main/frontend/
     3. **Generate**: Dynamically produces an optimized Dockerfile and `.dockerignore`.
     4. **Build**: Executes `docker build` with tagging based on Git commit SHA.
     5. **Push**: Pushes image to Docker Hub registry.
-    6. **Deploy**: Creates isolated user namespace (`deployhub-<user>`) and applies Kubernetes Deployment and Service.
+    6. **Deploy**: Creates isolated user namespace (`deploysync-<user>`) and applies Kubernetes Deployment and Service.
     7. **Live**: Discovers service URL and binds a GitHub push webhook.
   - `detector.js`: Heuristic rule engine for runtime stack determination.
   - `dockerfiles.js`: Templates for Node, Python, Static, and custom Dockerfiles.
@@ -92,7 +92,7 @@ See the [Frontend README](file:///Users/prans/Downloads/DeployHub-main/frontend/
   - `store.js`: Persists deployments and encrypts tokens at rest using AES-256-GCM.
   - `shell.js`: Safe subprocess execution using `spawn` (no shell interpolation) with real-time token masking.
 
-See the [Backend README](file:///Users/prans/Downloads/DeployHub-main/backend/README.md) for API specifications and security details.
+See the [Backend README](file:///Users/prans/Downloads/DeploySync-main/backend/README.md) for API specifications and security details.
 
 ---
 
@@ -103,16 +103,16 @@ See the [Backend README](file:///Users/prans/Downloads/DeployHub-main/backend/RE
   - `start.sh`: Production startup manager under PM2 with systemd boot persistence.
   - `terraform/`: Infrastructure as Code (IaC) defining VPC, Subnet, Internet Gateway, Security Groups, and EC2 instance with Elastic IP.
 - **Kubernetes Orchestration (`aws-kubernetes/kubernetes/`)**:
-  - `rbac.yaml`: ServiceAccount, ClusterRole, and ClusterRoleBinding for DeployHub orchestrator permissions.
-  - `deployhub-deployment.yaml`: Kubernetes deployment manifest to run DeployHub itself in-cluster.
-  - `deployhub-service.yaml`: LoadBalancer service definition (AWS NLB/ELB).
+  - `rbac.yaml`: ServiceAccount, ClusterRole, and ClusterRoleBinding for DeploySync orchestrator permissions.
+  - `deploysync-deployment.yaml`: Kubernetes deployment manifest to run DeploySync itself in-cluster.
+  - `deploysync-service.yaml`: LoadBalancer service definition (AWS NLB/ELB).
   - `ingress.yaml`: Ingress controller routing for AWS Application Load Balancers.
   - `app-template.yaml`: Standalone reference manifest demonstrating the exact Kubernetes schema generated for user applications.
 - **Containerization (`aws-kubernetes/docker/`)**:
   - `Dockerfile`: Multi-stage production container image bundling Git, Docker CLI, and kubectl.
   - `docker-compose.yml`: Local multi-container orchestrator with mounted Docker socket.
 
-See the [AWS & Kubernetes README](file:///Users/prans/Downloads/DeployHub-main/aws-kubernetes/README.md) for full cloud setup steps.
+See the [AWS & Kubernetes README](file:///Users/prans/Downloads/DeploySync-main/aws-kubernetes/README.md) for full cloud setup steps.
 
 ---
 

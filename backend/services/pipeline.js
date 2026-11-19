@@ -14,11 +14,11 @@ const T = { clone: 60e3, build: 600e3, push: 300e3, kubectl: 60e3, rollout: 150e
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function runPipeline(dep, token) {
-  // Per-user isolation: each GitHub user gets their own namespace (e.g. deployhub-octocat).
+  // Per-user isolation: each GitHub user gets their own namespace (e.g. deploysync-octocat).
   const userSlug = sanitizeName(dep.ownerLogin);
-  const ns = `${process.env.K8S_NAMESPACE || 'deployhub'}-${userSlug}`;
+  const ns = `${process.env.K8S_NAMESPACE || 'deploysync'}-${userSlug}`;
   const mode = process.env.CLUSTER_MODE === 'local' ? 'local' : 'cloud';
-  const dir = path.join(os.tmpdir(), 'deployhub', dep.id);
+  const dir = path.join(os.tmpdir(), 'deploysync', dep.id);
   const secrets = [token, process.env.DOCKER_PASS];
   const L = (line) => store.log(dep, line);
 
