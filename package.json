@@ -1,0 +1,19 @@
+{
+  "name": "deployhub",
+  "version": "1.0.0",
+  "description": "DeployHub: GitHub -> Docker -> Kubernetes automated CI/CD platform",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "smoke": "node backend/scripts/smoke.js",
+    "preflight": "node backend/scripts/preflight.js",
+    "start:backend": "cd backend && npm start",
+    "dev:backend": "cd backend && npm run dev",
+    "smoke:backend": "cd backend && npm run smoke",
+    "preflight:backend": "cd backend && npm run preflight"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
