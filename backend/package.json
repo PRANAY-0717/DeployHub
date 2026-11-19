@@ -1,0 +1,21 @@
+{
+  "name": "deployhub",
+  "version": "1.0.0",
+  "description": "GitHub -> Docker -> Kubernetes automated CI/CD platform",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "smoke": "node scripts/smoke.js",
+    "preflight": "node scripts/preflight.js"
+  },
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@octokit/rest": "^19.0.13",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "express-session": "^1.18.0"
+  }
+}
