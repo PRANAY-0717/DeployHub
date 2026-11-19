@@ -4,13 +4,35 @@
   wrap.className = 'modal-backdrop hidden';
   wrap.innerHTML =
     '<div class="modal" role="dialog" aria-modal="true" aria-labelledby="m-title">' +
-    '<h2 id="m-title"></h2><div class="sub">Build a container image and deploy it to Kubernetes.</div>' +
-    '<div class="field"><label for="m-branch">Branch</label><select id="m-branch"></select></div>' +
-    '<div class="field"><label for="m-port">Container port</label><input id="m-port" type="number" min="1" max="65535" placeholder="Auto-detect">' +
-    '<div class="detect" id="m-detect"></div></div>' +
-    '<div class="field"><label for="m-rep">Replicas</label><select id="m-rep"><option>1</option><option selected>2</option><option>3</option></select></div>' +
-    '<div class="modal-actions"><button class="btn btn-ghost" id="m-cancel" type="button">Cancel</button>' +
-    '<button class="btn btn-primary" id="m-start" type="button">Start deployment</button></div></div>';
+      '<div class="modal-header">' +
+        '<div>' +
+          '<h2 id="m-title">Deploy Repository</h2>' +
+          '<div class="sub">Configure container parameters and roll out to Kubernetes.</div>' +
+        '</div>' +
+        '<button class="modal-close" id="m-close" type="button" aria-label="Close dialog">&times;</button>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label for="m-branch">Target Git Branch</label>' +
+        '<select id="m-branch"></select>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label for="m-port">Container Port</label>' +
+        '<input id="m-port" type="number" min="1" max="65535" placeholder="Auto-detecting from repo…">' +
+        '<div class="detect" id="m-detect">Detecting runtime stack…</div>' +
+      '</div>' +
+      '<div class="field">' +
+        '<label for="m-rep">Pod Replicas</label>' +
+        '<select id="m-rep">' +
+          '<option value="1">1 replica (development)</option>' +
+          '<option value="2" selected>2 replicas (recommended high-availability)</option>' +
+          '<option value="3">3 replicas (redundant)</option>' +
+        '</select>' +
+      '</div>' +
+      '<div class="modal-actions">' +
+        '<button class="btn btn-ghost" id="m-cancel" type="button">Cancel</button>' +
+        '<button class="btn btn-primary" id="m-start" type="button">Start deployment</button>' +
+      '</div>' +
+    '</div>';
   document.body.appendChild(wrap);
 
   const $ = (id) => document.getElementById(id);
@@ -19,6 +41,7 @@
 
   const close = () => wrap.classList.add('hidden');
   $('m-cancel').onclick = close;
+  $('m-close').onclick = close;
   wrap.addEventListener('click', (e) => { if (e.target === wrap) close(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
@@ -34,7 +57,7 @@
         box.textContent = 'No supported stack found in the repo root. Supported: Node, Python, static, or your own Dockerfile.';
         return;
       }
-      box.className = 'detect ok'; box.textContent = 'Detected: ' + d.stack;
+      box.className = 'detect ok'; box.textContent = 'Detected stack: ' + d.stack + (d.port ? ' (default port ' + d.port + ')' : '');
       if (d.port && !$('m-port').dataset.touched) $('m-port').value = d.port;
     } catch (e) { if (my === seq) { box.className = 'detect warn'; box.textContent = 'Could not detect: ' + e.message; } }
   }

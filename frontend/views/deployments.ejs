@@ -1,6 +1,25 @@
 <%- include('partials/head', { title: title }) %>
-<main class="container">
-  <div class="page-head"><h1>Deployments</h1></div>
-  <div id="wrap" class="table-wrap"><div class="empty-box">Loading deployments…</div></div>
+
+<main id="main" class="app-main">
+  <div class="wrap">
+    <div class="page-head">
+      <div class="page-head__title">
+        <h1>Deployments</h1>
+        <p class="muted">History and live status of container builds and Kubernetes rollouts.</p>
+      </div>
+      <div class="page-head__actions">
+        <a class="btn btn--primary btn-sm" href="/repos">Deploy Repository</a>
+      </div>
+    </div>
+
+    <!-- Table container populated dynamically by deployments.js -->
+    <div id="wrap" class="table-card">
+      <div class="empty-state">
+        <div class="spinner"></div>
+        <p>Loading deployment history…</p>
+      </div>
+    </div>
+  </div>
 </main>
+
 <%- include('partials/foot') %>

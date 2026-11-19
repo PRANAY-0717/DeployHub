@@ -1,11 +1,48 @@
 <%- include('partials/head', { title: title, bodyData: bodyData }) %>
-<main class="container" id="detail" data-id="<%= bodyData %>">
-  <div class="detail-head" id="head"></div>
-  <div id="banner"></div>
-  <div class="stepper" id="stepper"></div>
-  <div class="detail-cols">
-    <div class="console" id="console" aria-label="Deployment logs"><div class="console-empty">Waiting for logs…</div></div>
-    <aside class="card summary" id="summary"></aside>
+
+<main id="detail" class="app-main" data-id="<%= bodyData %>">
+  <div class="wrap">
+    <!-- Back link navigation -->
+    <div class="breadcrumb">
+      <a href="/deployments" class="breadcrumb-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        <span>Deployments</span>
+      </a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current"><%= title %></span>
+    </div>
+
+    <!-- Header populated dynamically by detail.js -->
+    <div class="detail-head" id="head"></div>
+
+    <!-- Error banner if failed -->
+    <div id="banner"></div>
+
+    <!-- Pipeline Stepper: 7-stage workflow -->
+    <div class="stepper-card">
+      <div class="stepper" id="stepper" role="list" aria-label="Deployment pipeline steps"></div>
+    </div>
+
+    <!-- Two columns: Live Streaming Console & Metadata Summary -->
+    <div class="detail-grid">
+      <section class="console-wrap">
+        <div class="console-header">
+          <div class="console-header__title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            <span>Live Build &amp; Deployment Stream</span>
+          </div>
+          <div class="console-header__actions">
+            <span class="live-pill"><span class="pulse-dot"></span> Live Log</span>
+          </div>
+        </div>
+        <div class="console" id="console" role="region" aria-label="Deployment logs" tabindex="0">
+          <div class="console-empty">Streaming pipeline logs…</div>
+        </div>
+      </section>
+
+      <aside class="card summary-card" id="summary" aria-label="Deployment parameters"></aside>
+    </div>
   </div>
 </main>
+
 <%- include('partials/foot') %>

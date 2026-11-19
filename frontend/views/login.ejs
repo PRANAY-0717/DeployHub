@@ -1,18 +1,253 @@
 <%- include('partials/head', { title: title }) %>
-<main class="login-wrap">
-  <section class="login-card">
-    <div class="login-logo">🚀 DeployHub</div>
-    <p class="login-tag">Push code. We containerize and ship it to Kubernetes.</p>
-    <% if (error) { %><div class="banner banner-error"><%= error %></div><% } %>
-    <a class="btn btn-primary btn-lg btn-block" href="/auth/github">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-      Continue with GitHub
-    </a>
-    <ul class="login-points">
-      <li>Auto Dockerfile for Node, Python and static sites</li>
-      <li>One-click deploy to your Kubernetes cluster</li>
-      <li>Auto-redeploy on every push</li>
-    </ul>
+
+<main id="main">
+  <section class="hero hero--dev" data-enter aria-labelledby="hero-title">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="pulse-dot"></span>
+            <span>AUTOMATED CONTAINER PIPELINE</span>
+          </div>
+
+          <h1 id="hero-title">Push code. Ship to Kubernetes without the YAML.</h1>
+
+          <p class="hero-lead">
+            DeployHub connects your GitHub repositories, automatically detects runtime dependencies, generates multi-stage container builds, and deploys scalable pods to your cluster with live streaming logs.
+          </p>
+
+          <% if (error) { %>
+            <div class="banner banner-error" role="alert">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span><%= error %></span>
+            </div>
+          <% } %>
+
+          <div class="hero-actions">
+            <a class="btn btn--primary btn-lg" href="/auth/github">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+              <span>Continue with GitHub</span>
+            </a>
+            <a class="btn btn--secondary btn-lg" href="#pipeline">
+              <span>View Architecture</span>
+            </a>
+          </div>
+
+          <div class="hero-proof">
+            <span class="proof-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Zero-config runtime detection
+            </span>
+            <span class="proof-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Docker and K8s automation
+            </span>
+            <span class="proof-item">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              Auto-redeploy on webhook push
+            </span>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="dev-window">
+            <div class="dev-window__bar">
+              <div class="dev-window__dots">
+                <span class="dot-red"></span>
+                <span class="dot-yellow"></span>
+                <span class="dot-green"></span>
+              </div>
+              <div class="dev-window__title">deployhub-pipeline · octocat/web-service:main (a1f89bc)</div>
+              <div class="dev-window__status">
+                <span class="badge-live">LIVE</span>
+              </div>
+            </div>
+
+            <div class="dev-window__pipeline">
+              <div class="pipeline-step is-complete">
+                <div class="step-num">✓</div>
+                <div class="step-label">Clone</div>
+              </div>
+              <div class="pipeline-connector is-complete"></div>
+              <div class="pipeline-step is-complete">
+                <div class="step-num">✓</div>
+                <div class="step-label">Detect</div>
+              </div>
+              <div class="pipeline-connector is-complete"></div>
+              <div class="pipeline-step is-complete">
+                <div class="step-num">✓</div>
+                <div class="step-label">Generate</div>
+              </div>
+              <div class="pipeline-connector is-complete"></div>
+              <div class="pipeline-step is-complete">
+                <div class="step-num">✓</div>
+                <div class="step-label">Build</div>
+              </div>
+              <div class="pipeline-connector is-complete"></div>
+              <div class="pipeline-step is-complete">
+                <div class="step-num">✓</div>
+                <div class="step-label">Deploy</div>
+              </div>
+            </div>
+
+            <div class="dev-window__console">
+              <div class="console-line"><span class="c-ts">19:16:02</span> <span class="c-stage">▶ Phase 1: Repository inspection</span></div>
+              <div class="console-line"><span class="c-ts">19:16:03</span> <span class="c-cmd">$ git clone https://github.com/octocat/web-service</span></div>
+              <div class="console-line"><span class="c-ts">19:16:04</span> <span class="c-ok">✔ Detected stack: Node.js 20 LTS (container port 3000)</span></div>
+              <div class="console-line"><span class="c-ts">19:16:05</span> <span class="c-stage">▶ Phase 2: Container image generation</span></div>
+              <div class="console-line"><span class="c-ts">19:16:06</span> <span class="c-cmd">$ docker build -t deployhub/web-service:a1f89bc .</span></div>
+              <div class="console-line"><span class="c-ts">19:16:08</span> <span class="c-ok">✔ Image pushed to registry (digest: sha256:7e9a2b...)</span></div>
+              <div class="console-line"><span class="c-ts">19:16:09</span> <span class="c-stage">▶ Phase 3: Kubernetes deployment rollout</span></div>
+              <div class="console-line"><span class="c-ts">19:16:10</span> <span class="c-cmd">$ kubectl apply -f manifest.yaml</span></div>
+              <div class="console-line"><span class="c-ts">19:16:11</span> <span class="c-ok">✔ Deployment healthy: 2/2 pods running at http://localhost:3000</span></div>
+            </div>
+
+            <div class="dev-window__footer">
+              <div class="pod-status">
+                <span class="pulse-dot"></span>
+                <span>Namespace: <code>default</code></span>
+              </div>
+              <div class="pod-replicas">
+                <span>Replicas: <strong>2/2 Ready</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="floating-stat-card">
+            <div class="stat-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div class="stat-text">
+              <span class="stat-title">Cluster Rollout Successful</span>
+              <span class="stat-sub">Ingress route active · 0s downtime</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
+
+  <section class="section" id="pipeline" aria-labelledby="pipeline-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="pipeline-h">How DeployHub works. <span class="muted">Three steps from git push to cluster pod.</span></h2>
+      </div>
+
+      <div class="feature-cards">
+        <article class="card feature-card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          </div>
+          <h3>1. Instant Stack Detection</h3>
+          <p>Inspects your repository root for <code>package.json</code>, <code>requirements.txt</code>, or static markup. Synthesizes a lean, security-hardened multi-stage Dockerfile automatically if none exists.</p>
+          <div class="card-tags">
+            <span class="tag">Node.js 20</span>
+            <span class="tag">Python 3.12</span>
+            <span class="tag">Static Nginx</span>
+            <span class="tag">Custom Dockerfile</span>
+          </div>
+        </article>
+
+        <article class="card feature-card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+          </div>
+          <h3>2. Isolated Container Builds</h3>
+          <p>Executes Docker builds locally or in your registry sandbox. Every image is immutably tagged with the git commit SHA, enabling reproducible rollbacks and exact deployment traceability.</p>
+          <div class="card-tags">
+            <span class="tag">Multi-Stage</span>
+            <span class="tag">SHA Tagging</span>
+            <span class="tag">Docker Daemon</span>
+            <span class="tag">Zero Bloat</span>
+          </div>
+        </article>
+
+        <article class="card feature-card">
+          <div class="card-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+          </div>
+          <h3>3. Rolling Kubernetes Deploy</h3>
+          <p>Generates native Kubernetes manifests (Deployment, Service, Ingress) and applies them via <code>kubectl</code>. Performs rolling pod replacements with zero downtime and automated health probe checks.</p>
+          <div class="card-tags">
+            <span class="tag">k8s Deployments</span>
+            <span class="tag">ClusterIP Services</span>
+            <span class="tag">Live Pod Logs</span>
+            <span class="tag">Zero Downtime</span>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="samples" aria-labelledby="samples-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="samples-h">Works with your everyday stack. <span class="muted">Included sample applications ready to deploy.</span></h2>
+      </div>
+
+      <div class="sample-grid">
+        <div class="sample-card">
+          <div class="sample-header">
+            <span class="sample-lang-dot js-dot"></span>
+            <h4>Node.js Express API</h4>
+          </div>
+          <p class="sample-desc">Detects <code>package.json</code>, installs production dependencies, starts with <code>npm start</code>, and binds to port 3000.</p>
+          <div class="code-preview">
+            <code>npm run dev<br># sample-repos/node-sample</code>
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-header">
+            <span class="sample-lang-dot py-dot"></span>
+            <h4>Python Flask App</h4>
+          </div>
+          <p class="sample-desc">Detects <code>requirements.txt</code>, installs virtualenv wheels, configures Gunicorn/WSGI, and binds to port 5000.</p>
+          <div class="code-preview">
+            <code>python app.py<br># sample-repos/python-sample</code>
+          </div>
+        </div>
+
+        <div class="sample-card">
+          <div class="sample-header">
+            <span class="sample-lang-dot html-dot"></span>
+            <h4>Static Web / SPA</h4>
+          </div>
+          <p class="sample-desc">Serves static assets, HTML5, CSS, and JS using an unprivileged alpine Nginx server on container port 80.</p>
+          <div class="code-preview">
+            <code>index.html<br># sample-repos/static-sample</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--cta" aria-labelledby="cta-h">
+    <div class="wrap">
+      <div class="cta-box">
+        <h2 id="cta-h">Connect your GitHub and deploy to your cluster.</h2>
+        <p class="cta-lead">Sign in with your GitHub account to inspect repositories, trigger manual deployments, or configure push webhooks.</p>
+        <div class="cta-actions">
+          <a class="btn btn--primary btn-lg" href="/auth/github">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+            <span>Start with GitHub</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap footer-content">
+      <div class="footer-brand">
+        <span class="nav__title">DeployHub</span>
+        <span class="muted">Automated Kubernetes CI/CD Pipeline</span>
+      </div>
+      <div class="footer-meta">
+        <span class="muted">Local Development Mode · Node.js 20+</span>
+      </div>
+    </div>
+  </footer>
 </main>
+
 <%- include('partials/foot') %>
