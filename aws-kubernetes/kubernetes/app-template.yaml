@@ -1,0 +1,71 @@
+# Reference template representing the Kubernetes manifests dynamically generated
+# by DeployHub (services/manifest.js) for every application deployed by users.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-app
+  namespace: deployhub-username
+  labels:
+    app: sample-app
+    managed-by: deployhub
+  annotations:
+    deployhub.io/repo: "octocat/hello-world"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0    # Zero-downtime: old pods stay alive until new ones pass readiness checks
+      maxSurge: 1          # 1 extra pod allowed during rollout
+  selector:
+    matchLabels:
+      app: sample-app
+  template:
+    metadata:
+      labels:
+        app: sample-app
+        managed-by: deployhub
+      annotations:
+        deployhub.io/commit: "a1b2c3d"
+        deployhub.io/deployed-at: "2026-11-17T12:00:00.000Z" # Forces rolling update even if commit SHA is identical
+    spec:
+      containers:
+        - name: sample-app
+          image: "dockeruser/username-sample-app:a1b2c3d"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-app
+  namespace: deployhub-username
+  labels:
+    app: sample-app
+    managed-by: deployhub
+spec:
+  type: LoadBalancer # NodePort when CLUSTER_MODE=local; LoadBalancer on AWS EKS / Cloud
+  selector:
+    app: sample-app
+  ports:
+    - port: 80
+      targetPort: 8080
+
