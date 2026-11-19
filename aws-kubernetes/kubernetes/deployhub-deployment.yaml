@@ -1,0 +1,86 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployhub-server
+  namespace: default
+  labels:
+    app: deployhub
+    role: control-plane
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: deployhub
+  template:
+    metadata:
+      labels:
+        app: deployhub
+    spec:
+      serviceAccountName: deployhub-sa
+      containers:
+        - name: deployhub
+          image: deployhub:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: PORT
+              value: "3000"
+            - name: CLUSTER_MODE
+              value: "cloud"
+            - name: GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: deployhub-secrets
+                  key: GITHUB_CLIENT_ID
+            - name: GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: deployhub-secrets
+                  key: GITHUB_CLIENT_SECRET
+            - name: DOCKER_USER
+              valueFrom:
+                secretKeyRef:
+                  name: deployhub-secrets
+                  key: DOCKER_USER
+            - name: DOCKER_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: deployhub-secrets
+                  key: DOCKER_PASS
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: deployhub-secrets
+                  key: SESSION_SECRET
+            - name: WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: deployhub-secrets
+                  key: WEBHOOK_SECRET
+            - name: BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: deployhub-config
+                  key: BASE_URL
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+
