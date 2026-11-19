@@ -1,0 +1,9 @@
+.git
+.github
+.env
+node_modules
+data/state.json
+sample-repos
+*.log
+.DS_Store
+
