@@ -1,0 +1,11 @@
+<%- include('partials/head', { title: title, bodyData: bodyData }) %>
+<main class="container" id="detail" data-id="<%= bodyData %>">
+  <div class="detail-head" id="head"></div>
+  <div id="banner"></div>
+  <div class="stepper" id="stepper"></div>
+  <div class="detail-cols">
+    <div class="console" id="console" aria-label="Deployment logs"><div class="console-empty">Waiting for logs…</div></div>
+    <aside class="card summary" id="summary"></aside>
+  </div>
+</main>
+<%- include('partials/foot') %>
